@@ -17,8 +17,8 @@
                     <p v-if="profile.has_cv === '1'">
                         <a :href="`https://cah.ucf.edu/common/files/cv/${profile.id}.pdf`">View CV</a>
                     </p>
-                    <p v-if="!!person.homepage">
-                        <a :href="person.homepage" target="_blank" rel="noopener">View Personal Website</a>
+                    <p v-if="!!profile.homepage">
+                        <a :href="profile.homepage" target="_blank" rel="noopener">View Personal Website</a>
                     </p>
                 </div>
             </div>
@@ -273,6 +273,12 @@ export default {
                 margin: 0;
             }
         }
+    }
+}
+
+.faculty-info {
+    p {
+        margin-bottom: 1em;
     }
 }
 </style>

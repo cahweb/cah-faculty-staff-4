@@ -199,4 +199,7 @@
 #publications[data-v-ced23842] ul li p {
   margin: 0;
 }
+.faculty-info p[data-v-ced23842] {
+  margin-bottom: 1em;
+}
 
