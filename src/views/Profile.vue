@@ -7,7 +7,19 @@
                     <h3>{{ fullname }}</h3>
                     <p class="mb-2"><em>{{ titles }}</em></p>
                     <p><a :href="`mailto:${profile.email}`">{{ profile.email }}</a></p>
-                    <p><a :href="`tel:${rawPhone}`">{{ profile.phone }}</a></p>
+                    <p v-if="profile.phone !== null"><a :href="`tel:${rawPhone}`">{{ profile.phone }}</a></p>
+                    <p v-if="!!profile.office">Office Hours: {{ profile.office }}</p>
+                    <p v-if="!!profile.room">
+                        Campus Location:
+                        <a v-if="!!profile.building" :href="`https://map.ucf.edu/locations/${profile.building}`" target="_blank" rel="noopener"> {{ profile.room_desc + profile.room }}</a>
+                        <span v-else>{{ profile.room_desc + profile.room }}</span>
+                    </p>
+                    <p v-if="profile.has_cv === '1'">
+                        <a :href="`https://cah.ucf.edu/common/files/cv/${profile.id}.pdf`">View CV</a>
+                    </p>
+                    <p v-if="!!person.homepage">
+                        <a :href="person.homepage" target="_blank" rel="noopener">View Personal Website</a>
+                    </p>
                 </div>
             </div>
         </div>
