@@ -1,0 +1,54 @@
+.faculty-button {
+    margin-bottom: 1em;
+    padding: .25em;
+
+    a {
+        cursor: default;
+        text-decoration: none;
+    }
+
+    &:hover {
+        background-color: #e1e1e1;
+    }
+}
+
+.faculty-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.faculty-info {
+    display: flex;
+    flex-direction: column;
+
+    p {
+        color: initial;
+        margin-bottom: 0;
+
+        &.staff-name {
+            font-weight: bold;
+        }
+
+        &.staff-title, &.email {
+            font-size: small;
+        }
+
+        &.email {
+            z-index: 10;
+
+            a {
+                color: initial;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+.has-headshot {
+    max-width: 66%;
+    margin-top: .5em;
+}

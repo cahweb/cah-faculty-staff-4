@@ -1,0 +1,29 @@
+.btn {
+    margin-bottom: 1px;
+
+    &> a {
+        display: inline-block;
+        color: inherit;
+        width: 100%;
+        height: 100%;
+
+        text-align: left;
+        padding-left: 1.5em;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    &:not(:last-child) {
+        border-bottom: 2px solid #e0b400;
+    }
+}
+
+.sub-item {
+    &> a {
+        padding-left: 3em;
+        font-size: small;
+        font-kerning: auto;
+    }
+}
