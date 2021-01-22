@@ -339,11 +339,17 @@ final class FacultyStaffSetup
                         'title_short',
                         'prog_title',
                         'title_id',
+                        'ordinal',
                     ];
+                    
                     foreach( $row as $key => $value )
                     {
-                        if( $key === 'subdept' || $key === 'title' || $key === 'title_short' || $key === 'title_id' )
+                        if( in_array( $key, $keys_to_skip ) )
                             continue;
+                        
+                        if( $key === 'phone' ) {
+                            $value = self::_format_phone_us( $value );
+                        }
 
                         $faculty_list[$current_id][$key] = $value;
                     }
@@ -675,6 +681,37 @@ final class FacultyStaffSetup
 
         // Return the DBHelper object
         return self::$_db;
+    }
+
+
+    /**
+     * Takes a given phone number input and formats it as a U.S.
+     * number. If it's not able to be formatted that way, we just
+     * send it straight back.
+     *
+     * @param string $phone  The phone number to try and format
+     * 
+     * @return string  The formatted (or original) number.
+     */
+    private static function _format_phone_us( string $phone ) : string {
+        if( !isset( $phone ) ) return "";
+
+        $phone = preg_replace( "/[^0-9]/", "", $phone );
+        switch( strlen( $phone ) ) {
+
+            case 7: // It's a "local" number, without an area code or country code.
+                return preg_replace( "/(\d{3})(\d{4})/", "$1-$2", $phone );
+                break;
+            case 10: // It's a US number with area code, but no country code.
+                return preg_replace( "/(\d{3})(\d{3})(\d{4})/", "($1) $2-$3", $phone );
+                break;
+            case 11: // It's a US number with the leading country code, as well.
+                return preg_replace( "/(\d)(\d{3})(\d{3})(\d{4})/", "+$1 ($2) $3-$4", $phone );
+                break;
+            default: // It's not a US number, so just bounce it back.
+                return $phone;
+                break;
+        }
     }
 }
 ?>

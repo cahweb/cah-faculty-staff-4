@@ -7,6 +7,7 @@
                     <h3>{{ fullname }}</h3>
                     <p class="mb-2"><em>{{ titles }}</em></p>
                     <p><a :href="`mailto:${profile.email}`">{{ profile.email }}</a></p>
+                    <p><a :href="`tel:${rawPhone}`">{{ profile.phone }}</a></p>
                 </div>
             </div>
         </div>
@@ -160,6 +161,19 @@ export default {
 
                 return precedence.findIndex(element => element === a.type) - precedence.findIndex(element => element === b.type)
             })
+        },
+        rawPhone() {
+            const rawPhone = this.profile.phone.replace(/[^0-9+]/, '')
+
+            if (rawPhone.length == 12 && /^\+/.test(rawPhone)) {
+                return rawPhone
+            }
+            else if (rawPhone.length == 11 && !/^\+/.test(rawPhone)) {
+                return `+${rawPhone}`
+            }
+            else {
+                return `+1${rawPhone}`
+            }
         },
         ...mapGetters([
             'spinCssVars',
