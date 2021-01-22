@@ -117,8 +117,8 @@
   border-radius: 5%;
 }
 .profile-size[data-v-48a24661] {
-  height: 180px;
-  width: 180px;
+  height: 180px !important;
+  width: 180px !important;
 }
 
 .faculty-button[data-v-40eb1c8e] {
