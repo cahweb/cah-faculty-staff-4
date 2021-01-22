@@ -116,6 +116,10 @@
 .rounded[data-v-48a24661] {
   border-radius: 5%;
 }
+.profile-size[data-v-48a24661] {
+  height: 180px;
+  width: 180px;
+}
 
 .faculty-button[data-v-40eb1c8e] {
   margin-bottom: 1em;

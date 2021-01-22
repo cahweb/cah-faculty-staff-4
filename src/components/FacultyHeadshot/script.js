@@ -23,6 +23,9 @@ export default {
         return{}
     },
     computed: {
+        classObj() {
+            return `${this.shapeClasses} ${this.$route.name == 'Profile' ? 'profile-size' : ''}`
+        },
         shapeClasses() {
             switch (this.img_shape) {
                 case 'circle':

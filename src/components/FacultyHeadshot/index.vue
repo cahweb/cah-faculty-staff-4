@@ -1,6 +1,6 @@
 <template>
     <div class="faculty-img">
-        <img :src="`https://cah.ucf.edu/common/resize.php?filename=${filename}&sz=${size}${imgExtra}`" :class="shapeClasses" :alt="imgName" :title="fullname">
+        <img :src="`https://cah.ucf.edu/common/resize.php?filename=${filename}&sz=${size}${imgExtra}`" :class="classObj" :alt="imgName" :title="fullname">
     </div>
 </template>
 
