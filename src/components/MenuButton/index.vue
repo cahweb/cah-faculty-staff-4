@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'sub-item': isVertical && !forceTop}" @click="activate">
+    <div class="button-wrapper" :class="{'sub-item': isVertical && !forceTop}" @click="activate">
         <button v-if="!isVertical" type="button" class="btn btn-primary btn-sm" :class="classObj">
             <router-link :to="routerTo" v-html="label" />
         </button>

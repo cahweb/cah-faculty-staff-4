@@ -10,9 +10,19 @@
         a {
             text-align: left;
         }
+    }
+
+    .button-wrapper {
+
+        &:not(:first-child) {
+            margin-top: -1px;
+        }
 
         &:not(:last-child) {
-            border-bottom: 1px solid #e0b400;
+            
+            /deep/ button {
+                border-bottom: 1px solid #e0b400;
+            }
         }
     }
 }

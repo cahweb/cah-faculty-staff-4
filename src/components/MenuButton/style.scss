@@ -20,6 +20,12 @@
     }
 }
 
+.button-wrapper {
+    width: 100%;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
 .sub-item {
     &> a {
         padding-left: 3em;
