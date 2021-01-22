@@ -347,7 +347,7 @@ final class FacultyStaffSetup
                         if( in_array( $key, $keys_to_skip ) )
                             continue;
                         
-                        if( $key === 'phone' ) {
+                        if( $key === 'phone' && !is_null( $value ) ) {
                             $value = self::_format_phone_us( $value );
                         }
 
