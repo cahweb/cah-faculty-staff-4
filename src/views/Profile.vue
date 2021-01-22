@@ -278,7 +278,7 @@ export default {
 
 .faculty-info {
     p {
-        margin-bottom: 1em;
+        margin-bottom: .25em;
     }
 }
 </style>
