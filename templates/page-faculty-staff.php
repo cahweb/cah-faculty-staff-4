@@ -5,16 +5,31 @@ global $post, $wp_query;
 if( is_object( $post ) && is_404() )
 {
     add_filter( 'pre_get_document_title', function( $title ) {
-        return 'Faculty &amp; Staff &ndash; ' . get_bloginfo( 'name', 'display' );
+
+        global $post;
+
+        if( 'faculty-staff' === $post->post_name && stripos( $title, 'Faculty &amp; Staff' ) === false ) {
+            return 'Faculty &amp; Staff &ndash; ' . get_bloginfo( 'name', 'display' );
+        }
+
+        return $title;
     });
 
     $wp_query->queried_object = $post;
     $wp_query->is_404 = false;
     $wp_query->is_page = true;
+
+    set_query_var( 'ucfwp_obj', $post );
 }
 
 get_header();
 ?>
+
+<?php if( function_exists( 'ucfwp_get_queried_object' ) && function_exists( 'ucfwp_get_header_title' ) && empty( ucfwp_get_header_title( ucfwp_get_queried_object() ) ) ) : ?>
+<div class="container">
+    <h1 class="h1 d-block mt-3 mt-sm-4 mt-md-5 mb-2 mb-md-3">Faculty &amp; Staff</h1>
+</div>
+<?php endif; ?>
 
 <div class="mt-5 mb-4" style="min-height: 240px;">
     <?= apply_filters( 'the_content', $post->post_content ); ?>

@@ -32,6 +32,7 @@ final class FacultyStaffTemplateMgr
         add_action( 'template_include', [ __CLASS__, 'set_template' ] );
 
         add_filter( 'the_title', [ __CLASS__, 'change_title' ] );
+        add_filter( 'pre_get_document_title', [ __CLASS__, 'change_tab_title' ] );
     }
 
 
@@ -94,31 +95,7 @@ final class FacultyStaffTemplateMgr
         $slug = self::$_slug;
         global $post;
 
-        // If $wp_query->is_404 is true, but the $post->post_name matches our
-        // desired slug, then it's one that's hit our handle_404() function,
-        // and we therefore want to change it
-        if( is_404() && $slug === $post->post_name )
-        {
-            // Check the theme folder for an existing template
-            if( file_exists( get_stylesheet_directory() . "/page-$slug.php" ) )
-            {
-                $template = get_stylesheet_directory() . "/page-$slug.php";
-            }
-            // Check the parent theme folder, if any
-            /*
-            else if( file_exists( get_template_directory() . "/page-$slug.php" ) )
-            {
-                $template = get_template_directory() . "/page-$slug.php";
-            }
-            */
-            // Otherwise use our basic, pre-packaged one
-            else
-            {
-                $template = CAH_FACULTY_STAFF_4__PLUGIN_DIR . "templates/page-$slug.php";
-            }
-        }
-        else if( $slug === $post->post_name )
-        {
+        if( $slug === $post->post_name && ( is_404() || stripos( $template, "page-$slug.php" ) === false ) ) {
             $template = CAH_FACULTY_STAFF_4__PLUGIN_DIR . "templates/page-$slug.php";
         }
 
