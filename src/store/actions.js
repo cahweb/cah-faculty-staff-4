@@ -48,4 +48,8 @@ export const actions = {
         dispatch('departments/setDepts', subdepts)
         dispatch('faculty/setAllFaculty', faculty)
     },
+
+    async setIsLoaded({commit}, isLoaded) {
+        commit('updateIsLoaded', isLoaded)
+    }
 }

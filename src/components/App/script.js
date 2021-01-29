@@ -34,10 +34,12 @@ export default {
         ...mapActions([
             'appInit',
             'getInitData',
+            'setIsLoaded',
         ]),
     },
     created() {
         this.appInit()
             .then(() => {this.getInitData()})
+            .then(() => {this.setIsLoaded(true)})
     },
 }

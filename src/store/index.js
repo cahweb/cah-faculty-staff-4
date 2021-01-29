@@ -24,6 +24,8 @@ const state = {
   filterable: true,
   vertical: false,
   prog_title_only: false,
+  tiered: false,
+  isLoaded: false,
   nonce: null,
   baseUrl: wpVars.baseUrl,
   ajaxUrl: wpVars.ajaxUrl,

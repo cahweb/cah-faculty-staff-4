@@ -32,7 +32,6 @@ final class FacultyStaffTemplateMgr
         add_action( 'template_include', [ __CLASS__, 'set_template' ] );
 
         add_filter( 'the_title', [ __CLASS__, 'change_title' ] );
-        add_filter( 'pre_get_document_title', [ __CLASS__, 'change_tab_title' ] );
     }
 
 
@@ -95,7 +94,7 @@ final class FacultyStaffTemplateMgr
         $slug = self::$_slug;
         global $post;
 
-        if( $slug === $post->post_name && ( is_404() || stripos( $template, "page-$slug.php" ) === false ) ) {
+        if( $slug === $post->post_name && ( is_404() || stripos( $template, "page-$slug.php" ) === false || !file_exists( get_stylesheet_directory() . "/page-$slug.php" ) ) ) {
             $template = CAH_FACULTY_STAFF_4__PLUGIN_DIR . "templates/page-$slug.php";
         }
 

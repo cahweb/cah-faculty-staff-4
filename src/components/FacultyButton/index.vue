@@ -1,6 +1,6 @@
 <template>
-    <div class="col-md-6 faculty-button" :class="{'col-xl-4': isAZList && !isVertical, 'col-lg-4 col-xl-3': isAZList && isVertical}">
-        <router-link :to="{name: 'Profile', params: {id: person.id}}">
+    <div class="col-md-6 faculty-button" :class="classObj">
+        <router-link :to="{name: 'Profile', params: {id: person.id}}" @click="window.scrollTo(0, 0)">
             <div class="faculty-container">
                 <headshot v-show="showHeadshot" :imgName="person.photo" :imgExtra="person.photo_extra" :fullname="fullname" />
                 <div class="faculty-info" :class="{'has-headshot': !isAZList}">

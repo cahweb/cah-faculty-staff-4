@@ -16,6 +16,14 @@ export default {
         return{}
     },
     computed: {
+        classObj() {
+            return {
+                'col-xl-4': (this.isAZList && !this.isVertical && !this.tiered) ||
+                            (this.isVertical && this.tiered) ||
+                            (this.format == 'picture'),
+                'col-lg-4 col-xl-3': (this.isAZList && this.isVertical && !this.tiered),
+            }
+        },
         fullname() {
             if (!this.person) return ''
 
@@ -77,7 +85,7 @@ export default {
             return titleStr
         },
         showHeadshot() {
-            return !this.isAZList || this.format === 'picture'
+            return !this.isAZList || this.format === 'picture' || this.tiered
         },
         showInterests() {
             return this.include_interests && (this.selected !== null || this.format === 'picture')
@@ -138,6 +146,7 @@ export default {
             'filterable',
             'format',
             'prog_title_only',
+            'tiered',
         ]),
         ...mapState('departments', [
             'selected',

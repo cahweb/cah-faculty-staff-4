@@ -37,7 +37,26 @@ export const actions = {
         dispatch('setAllFaculty', facultyList)
     },
 
-    async setAllFaculty({commit, dispatch}, facultyList) {
+    async setAllFaculty({commit, dispatch, rootState}, facultyList) {
+        if (rootState.tiered) {
+            const dividers = {
+                '-1': {
+                    id: -1,
+                    name: 'Full Time',
+                },
+                '-2': {
+                    id: -2,
+                    name: 'Part Time',
+                },
+                '-3': {
+                    id: -3,
+                    name: 'Staff',
+                },
+            }
+
+            facultyList = {...dividers, ...facultyList}
+        }
+
         commit('updateAllFaculty', facultyList)
         dispatch('sortDisplayList', facultyList)
     },
@@ -66,15 +85,91 @@ export const actions = {
             return compare
         }
 
+        const tieredSort = list => {
+            const fullTime = []
+            const partTime = []
+            const staff = []
+
+            const ftPatt = /Faculty/
+            const ptPatt = /part-time/i
+
+            Object.values(list).forEach(item => {
+                switch (item.id) {
+                    case -1:
+                        fullTime.unshift(item)
+                        break
+                    case -2:
+                        partTime.unshift(item)
+                        break
+                    case -3:
+                        staff.unshift(item)
+                        break
+                    default:
+                        if (ptPatt.test(item.title_group)) {
+                            partTime.push(item)
+                        }
+                        else if (ftPatt.test(item.title_group)) {
+                            fullTime.push(item)
+                        }
+                        else {
+                            staff.push(item)
+                        }
+                        break
+                }
+            })
+
+            const headerSort = (a, b) => {
+                if ([-1, -2, -3].includes(a.id)) {
+                    return -1
+                }
+                else if ([-1, -2, -3].includes(b.id)) {
+                    return 1
+                }
+
+                if (selected !== null) {
+                    return directorSort(a, b)
+                }
+                else {
+                    return alphaSort(a, b)
+                }
+            }
+
+            const subdeptFilter = item => [-1, -2, -3].includes(item.id) || (item.subdept[selected] !== undefined && item.subdept[selected].length > 0)
+
+            let tmpList = []
+
+            for (const group of [fullTime, partTime, staff]) {
+                if (group.length > 1) {
+                    tmpList.push(group)
+                }
+            }
+
+            let returnList = []
+
+            for (const group of tmpList) {
+                let filteredGroup = []
+                if (selected !== null) {
+                    filteredGroup = group.filter(subdeptFilter)
+                }
+                else {
+                    filteredGroup = group
+                }
+
+                if (filteredGroup.length > 1) {
+                    returnList.push(filteredGroup.sort(headerSort))
+                }
+            }
+
+            return returnList.flat().map(item => item.id)
+        }
+
         let displayList = []
 
-        if (selected !== null) {
-
-            switch(selected) {
-                default:
-                    displayList = Object.values(facultyList).filter(item => item.subdept[selected] !== undefined && item.subdept[selected].length > 0).sort(directorSort).map(item => item.id)
-                    break
-            }
+        if (selected !== null && !rootState.tiered) {
+            displayList = Object.values(facultyList).filter(item => !!item.subdept && item.subdept[selected] !== undefined && item.subdept[selected].length > 0).sort(directorSort).map(item => item.id)
+        }
+        else if (rootState.tiered) {
+            displayList = tieredSort(facultyList)
         }
         else {
             displayList = Object.values(facultyList).sort(alphaSort).map(item => item.id)

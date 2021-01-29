@@ -164,6 +164,7 @@ final class FacultyStaffSetup
                 'vertical' => 'false',
                 'format' => 'a-z',
                 'prog_title_only' => 'false',
+                'tiered' => 'false',
             ],
             $atts
         );

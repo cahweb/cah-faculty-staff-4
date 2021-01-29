@@ -1,7 +1,12 @@
 <template>
     <div class="container-fluid" v-if="dept !== undefined">
         <div class="row">
-            <faculty v-for="(person, i) of facultyList" :key="i" :person="person" />
+            <template v-for="(person, i) of facultyList">
+                <div v-if="[-1, -2, -3].includes(person.id)" :key="i" class="col-12 mt-3">
+                    <h2 class="h2 heading-underline">{{ person.name }}</h2>
+                </div>
+                <faculty v-else :key="i" :person="person" />
+            </template>
         </div>
     </div>
 </template>
@@ -16,7 +21,9 @@ export default {
         faculty: FacultyButton,
     },
     data() {
-        return {}
+        return {
+            isWatched: false,
+        }
     },
     computed: {
         dept() {
@@ -31,22 +38,45 @@ export default {
         ...mapGetters('departments', [
             'getDept',
         ]),
+        ...mapState([
+            'isLoaded',
+        ]),
         ...mapState('departments', [
             'selected',
         ]),
     },
     methods: {
+        ...mapActions('faculty', [
+            'sortDisplayList',
+        ]),
         ...mapActions('departments', [
             'changeActiveDept',
         ]),
     },
     beforeRouteEnter(to, from, next) {
         next(vm => {
-            if (to.name == "SubDepartment" && from.name == null && vm.$store.state.departments.selected === null) {
+            if (to.name == "SubDepartment" && (from.name == null || vm.$store.state.departments.selected === null)) {
                 vm.$store.dispatch('departments/setSelected', to.params.id)
+                    .then(() => {vm.$store.dispatch('faculty/sortDisplayList')})
             }
         })
     },
+    created() {
+        if (!this.isLoaded) {
+            this.unwatch = this.$store.watch(
+                (state) => state.isLoaded,
+                () => {
+                    this.isWatched = true
+                    this.sortDisplayList()
+                }
+            )
+        }
+    },
+    beforeDestroy() {
+        if (this.isWatched) {
+            this.unwatch()
+        }
+    }
 }
 </script>
 

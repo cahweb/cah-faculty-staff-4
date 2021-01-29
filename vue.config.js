@@ -1,6 +1,6 @@
 module.exports = {
     productionSourceMap: false,
-    publicPath: '/',
+    publicPath: '/wordpress/',
     /*
     devServer: {
         proxy: 'http://localhost/wordpress/wp-content/plugins/vue-router-wp-test/',

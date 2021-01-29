@@ -9,4 +9,7 @@ export const mutations = {
             Vue.set(state, key, value)
         }
     },
+    updateIsLoaded(state, isLoaded) {
+        Vue.set(state, 'isLoaded', isLoaded)
+    }
 }

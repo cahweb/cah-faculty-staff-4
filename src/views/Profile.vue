@@ -198,12 +198,13 @@ export default {
         ]),
         ...mapState([
             'pluginDirURI',
-            'prog_title_only'
+            'prog_title_only',
+            'isLoaded',
         ]),
     },
     methods: {
         degreeLine(degree) {
-            return `${degree.degree} in ${degree.field}${ degree.institution.length ? ` from ${degree.institution}` : ''} (${degree.year})`
+            return `${degree.degree} in ${degree.field}${ degree.institution.length ? ` from ${degree.institution}` : ''}${degree.year ? `(${degree.year}` : ''}`
         },
         pubLine(pub) {
             const citation = _.unescape(pub.citation).replace(/<br\s?\/?>/i, '')
@@ -216,9 +217,6 @@ export default {
             'setInfoRetrieved',
         ]),
     },
-    beforeRouteUpdate() {
-        window.scrollTo(0, 0)
-    },
     created() {
         const getDetailInfo = async () => {
             this.getEduPub(this.id)
@@ -228,9 +226,9 @@ export default {
                 })
         }
 
-        if (this.getProfile(this.id) === undefined) {
+        if (!this.isLoaded) {
             this.unwatch = this.$store.watch(
-                (state, getters) => getters['faculty/getProfile'](this.id),
+                (state) => state.isLoaded,
                 () => {
                     this.isWatched = true
                     getDetailInfo()
@@ -240,6 +238,9 @@ export default {
         else if (this.getProfile(this.id).infoRetrieved === false) {
             getDetailInfo()
         }
+    },
+    mounted() {
+        window.scrollTo(0, 0)
     },
     beforeDestroy() {
         if (this.isWatched) 
