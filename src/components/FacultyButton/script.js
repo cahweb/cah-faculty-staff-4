@@ -43,7 +43,6 @@ export default {
                 else {
                     if (!this.person.subdept[this.selected]) return ''
                     titleObj = this.person.subdept[this.selected][0]
-                    console.log(titleObj)
                 }
                 titleStr = titleObj.title_short.length > 0 ? titleObj.title_short : (titleObj.prog_title.length > 0 ? titleObj.prog_title : titleObj.title)
             }

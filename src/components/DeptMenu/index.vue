@@ -9,9 +9,9 @@
         <div v-else class="dropdown">
             <button class="btn btn-primary mb-4 dropdown-toggle" type="button" id="filterButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-html="selectedName" />
             <div class="dropdown-menu" aria-labelledby="filterButton">
-                <menu-button label="A&ndash;Z List" :force-top="true" ref="azList" @buttonClick.prevent="changeDept(null)" />
+                <menu-button label="A&ndash;Z List" :force-top="true" ref="azList" @buttonClick="changeDept(null)" />
                 <template v-for="(dept, i) of displayList">
-                    <menu-button v-show="showSubdept(dept)" :key="i" goTo="SubDepartment" :goToParams="{id: dept.id}" :label="dept.name" :force-top="!multi_dept || dept.parent == 0" ref="subList" @buttonClick.prevent="changeDept(dept.id)" />
+                    <menu-button v-show="showSubdept(dept)" :key="i" goTo="SubDepartment" :goToParams="{id: dept.id}" :label="dept.name" :force-top="!multi_dept || dept.parent == 0" ref="subList" @buttonClick="changeDept(dept.id)" />
                 </template>
             </div>
         </div>
