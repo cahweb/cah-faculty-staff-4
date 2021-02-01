@@ -27,6 +27,10 @@
     }
 }
 
+.dropdown-menu {
+    z-index: 25000 !important;
+}
+
 .mobile {
     width: 33vw;
     position: fixed;
