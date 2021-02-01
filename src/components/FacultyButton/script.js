@@ -35,13 +35,15 @@ export default {
             let subdeptList
 
             if (this.prog_title_only) {
+                let titleObj = {}
                 if (this.selected === null) {
                     subdeptList = Object.values(this.person.subdept)
-                    titleStr = subdeptList[0][0].title_short
+                    titleObj = subdeptList[0][0]
                 }
                 else {
-                    titleStr = this.person.subdept[this.selected][0].title_short
+                    titleObj = this.person.subdept[this.selected][0]
                 }
+                titleStr = titleObj.title_short.length > 0 ? titleObj.title_short : (titleObj.prog_title.length > 0 ? titleObj.prog_title : titleObj.title)
             }
             else {
 

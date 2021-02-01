@@ -5,7 +5,7 @@
                 <headshot :imgName="profile.photo" :imgExtra="profile.photo_extra" :fullname="fullname" />
                 <div class="faculty-info">
                     <h3>{{ fullname }}</h3>
-                    <p class="mb-2"><em>{{ titles }}</em></p>
+                    <p class="mb-2"><em v-html="titles"></em></p>
                     <p><a :href="`mailto:${profile.email}`">{{ profile.email }}</a></p>
                     <p v-if="profile.phone !== null"><a :href="`tel:${rawPhone}`">{{ profile.phone }}</a></p>
                     <p v-if="!!profile.office">Office Hours: {{ profile.office }}</p>
@@ -116,7 +116,7 @@ export default {
 
             for (const subdept of subdeptList) {
                 for (const title of subdept) {
-                    if (!titleArray.includes(title))
+                    if (title.length > 0 && !titleArray.includes(title))
                         titleArray.push(title)
                 }
             }
