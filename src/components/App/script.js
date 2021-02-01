@@ -22,6 +22,9 @@ export default {
         ...mapState('faculty', [
             'allFaculty',
         ]),
+        ...mapState('departments', [
+            'isSmallScreen',
+        ]),
         ...mapGetters([
             'spinCssVars',
             'isVertical',

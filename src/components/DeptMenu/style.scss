@@ -26,3 +26,19 @@
         }
     }
 }
+
+.mobile {
+    width: 33vw;
+    position: fixed;
+    z-index: 10000;
+    top: 10vh;
+    left: -32vw;
+}
+
+.mobile-tab {
+    margin-right: -10em;
+    border: 1px 1px 1px 0px;
+    border-color: #e0b400;
+    border-style: solid;
+    border-radius: 0px 5px 5px 0px;
+}

@@ -5,6 +5,7 @@ import {mutations} from './mutations'
 const state = {
     selected: null,
     deptList: [],
+    isSmallScreen: false,
 }
 
 const namespaced = true;

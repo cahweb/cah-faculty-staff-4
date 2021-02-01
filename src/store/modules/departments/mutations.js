@@ -6,5 +6,8 @@ export const mutations = {
     },
     updateSelected(state, dept) {
         Vue.set(state, 'selected', dept)
+    },
+    updateIsSmallScreen(state, isSmallScreen) {
+        Vue.set(state, 'isSmallScreen', isSmallScreen)
     }
 }

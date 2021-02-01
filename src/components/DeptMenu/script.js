@@ -8,7 +8,10 @@ export default {
         'menu-button': MenuButton,
     },
     data() {
-        return{}
+        return{
+            breakpoint: 994,
+            windowWidth: 0,
+        }
     },
     computed: {
         displayList() {
@@ -21,6 +24,11 @@ export default {
             else {
                 return `A&ndash;Z List`
             }
+        },
+        isSmallScreen() {
+            const isSmallScreen = this.windowWidth <= this.breakpoint
+            this.setIsSmallScreen(isSmallScreen)
+            return isSmallScreen
         },
         ...mapState([
             'multi_dept',
@@ -41,6 +49,7 @@ export default {
             'getDept',
         ]),
     },
+
     methods: {
         changeDept(id) {
             this.deactivateButtons()
@@ -59,9 +68,22 @@ export default {
 
             return dept.parent == 0 || this.getSubdeptCount(dept.id) > 0
         },
+        onResize() {
+            this.windowWidth = window.innerWidth
+        },
         ...mapActions('departments', [
             'getDepts',
             'changeActiveDept',
+            'setIsSmallScreen',
         ]),
+    },
+
+    mounted() {
+        window.addEventListener('resize', this.onResize)
+        this.onResize()
+    },
+
+    beforeDestroy() {
+        window.removeEventListener('resize', this.onResize)
     },
 }

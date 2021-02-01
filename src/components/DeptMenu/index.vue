@@ -1,6 +1,6 @@
 <template>
-    <div class="list-box" :class="{'vertical': isVertical}">
-        <div v-if="!vertical" class="btn-group-vertical" id="dept-nav-box" role="group" aria-label="Subdepartment Navigation">
+    <div class="list-box" :class="{'vertical': isVertical || isSmallScreen}">
+        <div v-if="!vertical && !isSmallScreen" class="btn-group-vertical" id="dept-nav-box" role="group" aria-label="Subdepartment Navigation">
             <menu-button label="A&ndash;Z List" :force-top="true" ref="azList" @buttonClick="changeDept(null)" />
             <template v-for="(dept, i) in displayList">
                 <menu-button v-show="showSubdept(dept)" :key="i" goTo="SubDepartment" :goToParams="{id: dept.id}" :label="dept.name" :force-top="!multi_dept || dept.parent == 0" ref="subList" @buttonClick="changeDept(dept.id)" />

@@ -39,6 +39,7 @@ export default {
         ]),
         ...mapState('departments', [
             'selected',
+            'isSmallScreen',
         ]),
         ...mapGetters([
             'isVertical',

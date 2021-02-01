@@ -36,5 +36,9 @@ export const actions = {
 
     async setSelected({commit}, dept) {
         commit('updateSelected', dept)
+    },
+
+    async setIsSmallScreen({commit}, isSmallScreen) {
+        commit('updateIsSmallScreen', isSmallScreen)
     }
 }
