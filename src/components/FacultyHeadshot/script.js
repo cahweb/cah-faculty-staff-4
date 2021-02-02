@@ -24,7 +24,7 @@ export default {
     },
     computed: {
         classObj() {
-            return `${this.shapeClasses} ${this.$route.name == 'Profile' ? 'profile-size' : ''}`
+            return `${this.shapeClasses} ${this.$route.name == 'Profile' && !this.isSmallScreen ? 'profile-size' : ''}`
         },
         shapeClasses() {
             switch (this.img_shape) {
@@ -44,6 +44,9 @@ export default {
         },
         ...mapState([
             'img_shape',
+        ]),
+        ...mapState('departments', [
+            'isSmallScreen',
         ]),
     },
 }

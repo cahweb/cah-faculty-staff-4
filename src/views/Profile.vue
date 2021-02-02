@@ -1,11 +1,11 @@
 <template>
     <div class="container-fluid mt-3" v-if="profile !== undefined">
         <div class="row">
-            <div class="col d-flex flex-row mb-3">
+            <div class="col d-flex flex-row mb-3" :class="{'align-items-center': isSmallScreen}">
                 <headshot :imgName="profile.photo" :imgExtra="profile.photo_extra" :fullname="fullname" />
-                <div class="faculty-info">
+                <div class="faculty-info" :class="{'mobile-size': isSmallScreen}">
                     <h3>{{ fullname }}</h3>
-                    <p class="mb-2"><em v-html="titles"></em></p>
+                    <p class="titles mb-1"><em v-html="titles"></em></p>
                     <p><a :href="`mailto:${profile.email}`">{{ profile.email }}</a></p>
                     <p v-if="profile.phone !== null"><a :href="`tel:${rawPhone}`">{{ profile.phone }}</a></p>
                     <p v-if="!!profile.office">Office Hours: {{ profile.office }}</p>
@@ -201,6 +201,9 @@ export default {
             'prog_title_only',
             'isLoaded',
         ]),
+        ...mapState('departments', [
+            'isSmallScreen',
+        ])
     },
     methods: {
         degreeLine(degree) {
@@ -279,7 +282,15 @@ export default {
 
 .faculty-info {
     p {
-        margin-bottom: .25em;
+        margin-bottom: .1em;
+    }
+
+    &.mobile-size {
+        p {
+            &:not(.titles) {
+                font-size: small;
+            }
+        }
     }
 }
 </style>
