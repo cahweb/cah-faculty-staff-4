@@ -30,6 +30,7 @@ const state = {
   baseUrl: wpVars.baseUrl,
   ajaxUrl: wpVars.ajaxUrl,
   pluginDirURI: wpVars.pluginDirURI,
+  isApple: false,
 }
 
 export default new Vuex.Store({

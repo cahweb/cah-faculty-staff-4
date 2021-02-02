@@ -2,6 +2,26 @@ import _ from 'underscore'
 import axios from 'axios'
 
 export const actions = {
+    checkSafari({commit}) {
+
+        let isApple = false
+
+        // Check for Safari
+        if (/constructor/i.test(window.HTMLElement) || (p => p.toString() === '[object SafariRemoteNotification]')(!window['safari'])) {
+            isApple = true
+        }
+
+        // Check if we're on a mobile device
+        const isMobile = /Mobi/.test(navigator.userAgent)
+
+        // If we are, see if we're on iOS
+        if (isMobile && (/iPhone;/.test(navigator.userAgent) || /iPad;/.test(navigator.userAgent))) {
+            isApple = true
+        }
+
+        commit('updateIsApple', isApple)
+    },
+
     async appInit({dispatch}) {
         dispatch('getNonce')
         dispatch('getOptions')

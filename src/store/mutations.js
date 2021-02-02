@@ -1,6 +1,9 @@
 import Vue from 'vue'
 
 export const mutations = {
+    updateIsApple(state, isApple) {
+        Vue.set(state, 'isApple', isApple)
+    },
     setNonce(state, nonce) {
         Vue.set(state, 'nonce', nonce);
     },

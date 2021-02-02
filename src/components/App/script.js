@@ -18,6 +18,8 @@ export default {
             'nonce',
             'filterable',
             'vertical',
+            'isApple',
+            'windowHistoryLength',
         ]),
         ...mapState('faculty', [
             'allFaculty',
@@ -38,9 +40,11 @@ export default {
             'appInit',
             'getInitData',
             'setIsLoaded',
+            'checkSafari',
         ]),
     },
     created() {
+        this.checkSafari()
         this.appInit()
             .then(() => {this.getInitData()})
             .then(() => {this.setIsLoaded(true)})

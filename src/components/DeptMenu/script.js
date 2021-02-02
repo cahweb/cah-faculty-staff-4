@@ -34,6 +34,7 @@ export default {
             'multi_dept',
             'has_advising',
             'vertical',
+            'isApple',
         ]),
         ...mapState('departments', [
             'selected',
