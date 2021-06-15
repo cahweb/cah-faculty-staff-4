@@ -42,3 +42,24 @@
     animation-iteration-count: infinite;
     animation-timing-function: ease;
 }
+
+.format-select {
+
+    .format-button {
+
+        padding: 1em;
+
+        img {
+            width: 30px;
+            height: 30px;
+        }
+
+        &:first-child {
+            border-radius: 10px 0px 0px 10px;
+        }
+
+        &:last-child {
+            border-radius: 0px 10px 10px 0px;
+        }
+    }
+}

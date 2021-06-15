@@ -27,7 +27,7 @@
                                 <td>{{ course.title }}</td>
                                 <td>{{ course.instructionMode }}</td>
                                 <td v-if="isSummer">{{ course.session }}</td>
-                                <td>{{ course.dateTime }}</td>
+                                <td>{{ course.meetingDays }} {{ course.startTime }}&ndash;{{ course.endTime }}</td>
                                 <!--
                                 <td v-if="course.syllabusFile !== null" v-html="getSyllabusLink(course)"></td>
                                 <td v-else>Unavailable</td>

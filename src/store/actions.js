@@ -71,5 +71,23 @@ export const actions = {
 
     async setIsLoaded({commit}, isLoaded) {
         commit('updateIsLoaded', isLoaded)
-    }
+    },
+
+    async changeFormat({commit, dispatch}, format) {
+        let tiered = null
+
+        switch (format) {
+            case 'picture':
+                tiered = true
+                break;
+            case 'a-z':
+                tiered = false
+                break
+        }
+
+        if (tiered !== null) {
+            commit('setOptions', {format, tiered})
+            dispatch('faculty/sortDisplayList')
+        }
+    },
 }

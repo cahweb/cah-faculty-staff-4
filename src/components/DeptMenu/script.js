@@ -15,7 +15,16 @@ export default {
     },
     computed: {
         displayList() {
-            return this.displayOrder.map(id => this.getDept(id))
+            // Sort the Emeritus "Subdepartment" to the end of the list, then replace them for the actual objects
+            return this.displayOrder.sort((a, b) => {
+                if (a == 81)
+                    return 1
+                else if (b == 81)
+                    return -1
+                else
+                    return 0
+            })
+                .map(id => this.getDept(id))
         },
         selectedName() {
             if (this.selected !== null) {
@@ -53,21 +62,27 @@ export default {
 
     methods: {
         changeDept(id) {
-            this.deactivateButtons()
+            this.deactivateButtons(id)
             this.changeActiveDept(id)
             window.scrollTo(0, 0)
         },
-        deactivateButtons() {
-            this.$refs.azList.setActive(false)
+        deactivateButtons(activeDept = null) {
+            if (activeDept !== null)
+                this.$refs.azList.setActive(false)
+
             for (const item of this.$refs.subList) {
-                item.setActive(false)
+                if (item.goToParams.id != activeDept)
+                    item.setActive(false)
             }
         },
         showSubdept(dept) {
             if (dept.id == 75 && !this.has_advising)
                 return false
 
-            return dept.parent == 0 || this.getSubdeptCount(dept.id) > 0
+            if (dept.id == 81)
+                return this.getSubdeptCount(dept.id) > 0 ? true : false
+
+            return (this.multi_dept && dept.parent == 0) || this.getSubdeptCount(dept.id) > 0
         },
         onResize() {
             this.windowWidth = window.innerWidth

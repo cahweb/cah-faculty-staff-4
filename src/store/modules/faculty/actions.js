@@ -52,6 +52,10 @@ export const actions = {
                     id: -3,
                     name: 'Staff',
                 },
+                '-4': {
+                    id: -4,
+                    name: 'Emeriti',
+                },
             }
 
             facultyList = {...dividers, ...facultyList}
@@ -74,9 +78,41 @@ export const actions = {
             return lnameCompare
         }
 
+        const chairSort = (a, b) => {
+
+            if (selected !== null)
+                return 0
+
+            if (a.id < 0 || b.id < 0)
+                return 0
+
+            for (const subdept of Object.values(a.subdept)) {
+                for (const title of subdept) {
+                    if (title.title_id == 4) {
+                        return -1
+                    }
+                }
+            }
+
+            for (const subdept of Object.values(b.subdept)) {
+                for (const title of subdept) {
+                    if (title.title_id == 4) {
+                        return 1
+                    }
+                }
+            }
+
+            return 0
+        }
+
         const directorSort = (a, b) => {
 
-            const compare = parseInt(a.subdept[selected][0].ordinal) - parseInt(b.subdept[selected][0].ordinal)
+            let compare = null
+
+            if (selected == null)
+                compare = chairSort(a, b)
+            else
+                compare = parseInt(a.subdept[selected][0].ordinal) - parseInt(b.subdept[selected][0].ordinal)
             
             if (compare === 0) {
                 return alphaSort(a, b)
@@ -89,8 +125,9 @@ export const actions = {
             const fullTime = []
             const partTime = []
             const staff = []
+            const emeriti = []
 
-            const ftPatt = /Faculty/
+            const ftPatt = /Faculty|Chair|Dean/
             const ptPatt = /part-time/i
 
             Object.values(list).forEach(item => {
@@ -104,8 +141,14 @@ export const actions = {
                     case -3:
                         staff.unshift(item)
                         break
-                    default:
-                        if (ptPatt.test(item.title_group)) {
+                    case -4:
+                        emeriti.unshift(item)
+                        break
+                   default:
+                        if (item.emeritus) {
+                            emeriti.push(item)
+                        }
+                        else if (ptPatt.test(item.title_group)) {
                             partTime.push(item)
                         }
                         else if (ftPatt.test(item.title_group)) {
@@ -119,26 +162,21 @@ export const actions = {
             })
 
             const headerSort = (a, b) => {
-                if ([-1, -2, -3].includes(a.id)) {
+                if ([-1, -2, -3, -4].includes(a.id)) {
                     return -1
                 }
-                else if ([-1, -2, -3].includes(b.id)) {
+                else if ([-1, -2, -3, -4].includes(b.id)) {
                     return 1
                 }
 
-                if (selected !== null) {
-                    return directorSort(a, b)
-                }
-                else {
-                    return alphaSort(a, b)
-                }
+                return directorSort(a, b)
             }
 
             const subdeptFilter = item => [-1, -2, -3].includes(item.id) || (item.subdept[selected] !== undefined && item.subdept[selected].length > 0)
 
             let tmpList = []
 
-            for (const group of [fullTime, partTime, staff]) {
+            for (const group of [fullTime, partTime, staff, emeriti]) {
                 if (group.length > 1) {
                     tmpList.push(group)
                 }
@@ -166,13 +204,13 @@ export const actions = {
         let displayList = []
 
         if (selected !== null && !rootState.tiered) {
-            displayList = Object.values(facultyList).filter(item => !!item.subdept && item.subdept[selected] !== undefined && item.subdept[selected].length > 0).sort(directorSort).map(item => item.id)
+            displayList = Object.values(facultyList).filter(item => !!item.subdept && item.subdept[selected] !== undefined && item.subdept[selected].length > 0 && item.id > 0).sort(directorSort).map(item => item.id)
         }
         else if (rootState.tiered) {
             displayList = tieredSort(facultyList)
         }
         else {
-            displayList = Object.values(facultyList).sort(alphaSort).map(item => item.id)
+            displayList = Object.values(facultyList).filter(item => item.id > 0).sort(alphaSort).map(item => item.id)
         }
 
         commit('updateDisplayList', displayList)

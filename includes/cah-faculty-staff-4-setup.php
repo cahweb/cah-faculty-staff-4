@@ -315,6 +315,7 @@ final class FacultyStaffSetup
 
         // Get our faculty query SQL from the SQLGenerator class and run the query
         $sql = SQLGenerator::get_sql( QueryType::FACULTY, $dept, self::$_parent_dept );
+        error_log( "Faculty SQL: $sql" );
         $result = $db->query( $sql );
 
         if( $result )
@@ -359,6 +360,7 @@ final class FacultyStaffSetup
                     $faculty_list[$current_id]['edu'] = [];
                     $faculty_list[$current_id]['pub'] = [];
                     $faculty_list[$current_id]['courses'] = [];
+                    $faculty_list[$current_id]['emeritus'] = $row['affiliation'] === 'emeritus' ? true : false;
                 }
 
                 // Add the faculty member's title for this entry by subdepartment
@@ -407,7 +409,7 @@ final class FacultyStaffSetup
          * for a group of other departments, we'll have to do a bit of extra work (though
          * not *too* much)
          */
-        if( $data['multiDept'] )
+        if( 'true' == $data['multiDept'] )
         {
             // Get our subdepartment query with the multi_dept parameter set to true and run the query.
             $sql = SQLGenerator::get_sql( QueryType::SUBDEPARTMENT, $dept, true );
@@ -619,7 +621,9 @@ final class FacultyStaffSetup
                 'title' => $row['title'],
                 'instructionMode' => $row['instruction_mode'],
                 'session' => $row['session'],
-                'dateTime' => $row['dateandtime'],
+                'meetingDays' => $row['meeting_days'],
+                'startTime' => date( 'g:i A', strtotime( $row['class_start'] ) ),
+                'endTime' => date( 'g:i A', strtotime( $row['class_end'] ) ),
                 'syllabusFile' => $row['syllabus_file'],
                 'section' => $row['section'],
                 'description' => $row['description'],

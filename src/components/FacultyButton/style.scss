@@ -30,7 +30,9 @@
             font-weight: bold;
         }
 
-        &.staff-title, &.email {
+        &.staff-title,
+        &.email,
+        &.staff-interests {
             font-size: small;
         }
 

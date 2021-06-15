@@ -9,7 +9,7 @@
                     <p class="email">
                         <a :href="`mailto:${person.email}`">{{ person.email }}</a>
                     </p>
-                    <p v-if="showInterests"><em v-html="shortInterests"></em></p>
+                    <p v-if="showInterests" class="staff-interests"><em v-html="shortInterests"></em></p>
                 </div>
             </div>
         </router-link>

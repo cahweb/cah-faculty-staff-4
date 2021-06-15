@@ -2,10 +2,10 @@
     <div class="container-fluid" v-if="dept !== undefined">
         <div class="row">
             <template v-for="(person, i) of facultyList">
-                <div v-if="[-1, -2, -3].includes(person.id)" :key="i" class="col-12 mt-3">
+                <div v-if="[-1, -2, -3, -4].includes(person.id)" :key="i" class="col-12 mt-3">
                     <h2 class="h2 heading-underline">{{ person.name }}</h2>
                 </div>
-                <faculty v-else :key="i" :person="person" />
+                <faculty v-else-if="(id == 81 && person.emeritus) || (id !== 81 && !person.emeritus)" :key="i" :person="person" />
             </template>
         </div>
     </div>

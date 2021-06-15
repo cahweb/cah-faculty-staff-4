@@ -1,4 +1,5 @@
 import {mapState, mapGetters} from 'vuex'
+import _ from 'underscore'
 
 import FacultyHeadshot from '../FacultyHeadshot'
 
@@ -18,10 +19,11 @@ export default {
     computed: {
         classObj() {
             return {
-                'col-xl-4': (this.isAZList && !this.isVertical && !this.tiered) ||
-                            (this.isVertical && this.tiered) ||
-                            (this.format == 'picture'),
-                'col-lg-4 col-xl-3': (this.isAZList && this.isVertical && !this.tiered),
+                'col-xl-4': (this.isAZList && !this.isVertical && !this.tiered && this.filterable) ||
+                    (this.isVertical && this.tiered) ||
+                    (this.format == 'picture'),
+                'col-lg-4 col-xl-3': (this.isAZList && this.isVertical && !this.tiered) ||
+                    (!this.filterable && this.format == 'a-z'),
             }
         },
         fullname() {
@@ -34,17 +36,43 @@ export default {
 
             let subdeptList
 
+            let isChair = false
+
             if (this.prog_title_only) {
                 let titleObj = {}
                 if (this.selected === null) {
                     subdeptList = Object.values(this.person.subdept)
-                    titleObj = subdeptList[0][0]
+                    titleObj = null
+                    for (const subdept of subdeptList) {
+                        for (const title of subdept) {
+                            if (title.title_id === 4) {
+                                titleObj = title
+                                isChair = true
+                                break
+                            }
+                        }
+
+                        if (titleObj) {
+                            break
+                        }
+                    }
+
+                    if (!titleObj) {
+                        titleObj = subdeptList[0][0]
+                    }
+
                 }
                 else {
                     if (!this.person.subdept[this.selected]) return ''
                     titleObj = this.person.subdept[this.selected][0]
                 }
-                titleStr = titleObj.title_short.length > 0 ? titleObj.title_short : (titleObj.prog_title.length > 0 ? titleObj.prog_title : titleObj.title)
+
+                if (isChair) {
+                    titleStr = titleObj.title
+                }
+                else {
+                    titleStr = titleObj.title_short.length > 0 ? titleObj.title_short : (titleObj.prog_title.length > 0 ? titleObj.prog_title : titleObj.title)
+                }
             }
             else {
 
@@ -94,7 +122,7 @@ export default {
             return this.include_interests && (this.selected !== null || this.format === 'picture')
         },
         shortInterests() {
-            let rawInterests = this.person.interests
+            let rawInterests = _.unescape(this.person.interests)
             let interestsArr = []
 
             if (rawInterests) {
@@ -109,7 +137,7 @@ export default {
                     if (/;/.test(rawInterests)) {
                         interestsArr = rawInterests.split(';')
                     }
-                    else if (/,/.test(rawInterests) && interestsArr.length <= 2) {
+                    else if (/,/.test(rawInterests)) {
                         interestsArr = rawInterests.split(',')
                     }
                     else if (rawInterests.match(/./g).length > 1 || rawInterests.indexOf('.') !== rawInterests.length - 1 ) {

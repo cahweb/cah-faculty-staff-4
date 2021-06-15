@@ -26,7 +26,7 @@ export default {
     },
     computed: {
         routerTo() {
-            return this.goToParams !== undefined && this.goToParams.id !== null ? {name: this.goTo, params: this.goToParams} : `/${this.baseUrl}`
+            return this.goToParams?.id !== null ? {name: this.goTo, params: this.goToParams} : `/${this.baseUrl}`
         },
         classObj() {
             return {"sub-item": !this.forceTop, active: this.isActive}
@@ -56,9 +56,9 @@ export default {
     },
     mounted() {
         if ((this.selected == null && !this.goToParams) || 
-            (this.goToParams && this.goToParams.id == this.selected))
+            (this.goToParams?.id == this.selected))
         {
-            this.setActive(true)
+            this.activate()
         }
     }
 }
