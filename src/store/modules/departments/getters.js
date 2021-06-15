@@ -5,7 +5,7 @@ export const getters = {
         if (rootState.multi_dept) {
             const finalArray = [];
 
-            const topArray = Object.values(state.deptList).filter(item => item.parent == 0).sort((a, b) => a.name.localeCompare(b.name))
+            const topArray = Object.values(state.deptList).filter(item => item.parent == 0 && item.id !== 82).sort((a, b) => a.name.localeCompare(b.name))
 
             for (const value of topArray) {
                 const tempArray = [value, ...Object.values(state.deptList).filter(item => item.parent == value.id).sort((a, b) => a.name.localeCompare(b.name))]
